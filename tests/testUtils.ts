@@ -7,3 +7,9 @@ export function throwOnConsole(page: Page) {
     throw new Error(message.text());
   });
 }
+
+// Simple abstraction that loads a page and configures the console to throw an error if a console message occurs.
+export async function goTo(page: Page, path: string) {
+  await page.goto(path);
+  throwOnConsole(page);
+}
