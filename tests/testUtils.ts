@@ -9,6 +9,7 @@ export function throwOnConsole(page: Page) {
 }
 
 // Simple abstraction that loads a page and configures the console to throw an error if a console message occurs.
+// In theory, we could use a fixture to do this, but this feels simpler.
 export async function goTo(page: Page, path: string) {
   await page.goto(path);
   throwOnConsole(page);
