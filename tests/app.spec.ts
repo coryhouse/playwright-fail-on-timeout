@@ -1,16 +1,12 @@
 import { test, expect } from "@playwright/test";
+import { throwIfConsole } from "./testUtils";
 
 test("should fail the test when an HTTP call times out and provide a helpful error message", async ({
   page,
 }) => {
   await page.goto("http://localhost:3000");
 
-  page.on("console", (message) => {
-    // Optionally, can filter for just errors like this:
-    // if (message.type() === "error") {
-    // To keep the console clean, fail tests immediately when a console message occurs.
-    throw new Error(message.text());
-  });
+  throwIfConsole(page);
 
   await expect(
     page.getByRole("heading", { name: "Playwright Timeout Demo" })
