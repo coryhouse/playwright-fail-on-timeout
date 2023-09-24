@@ -5,14 +5,17 @@ test("should fail the test when an HTTP call times out and provide a helpful err
 }) => {
   await page.goto("http://localhost:3000");
 
-  console.log("test");
-
-  page.on("console", (msg) => {
-    throw new Error("Should not have any console logs");
+  page.on("console", (message) => {
+    // Optionally, can filter for just errors like this:
+    // if (message.type() === "error") {
+    // To keep the console clean, fail tests immediately when a console message occurs.
+    throw new Error(message.text());
   });
 
-  // Should never get here because the GET posts HTTP call will time out
-  await expect(page.getByText("json-server")).toBeVisible();
+  await expect(
+    page.getByRole("heading", { name: "Playwright Timeout Demo" })
+  ).toBeVisible();
 
-  await expect(page).toHaveTitle("Vite + React + TS");
+  // Shouldn't get here because the GET posts HTTP call will time out
+  await expect(page.getByText("json-server")).toBeVisible();
 });
