@@ -14,13 +14,17 @@ function App() {
   const { showBoundary } = useErrorBoundary();
 
   useEffect(() => {
-    ky("http://localhost:3001/posts", {
+    const url = "http://localhost:3001/posts";
+    ky(url, {
       // If this call takes longer than this timeout, throw an error.
       timeout: 1000,
     })
       .then((res) => res.json())
       .then((data) => setPosts(data as Post[]))
-      .catch((err) => showBoundary(err));
+      .catch((err) => {
+        console.error(`Request for ${url} timed out.`);
+        showBoundary(err);
+      });
   }, [showBoundary]);
 
   return (
