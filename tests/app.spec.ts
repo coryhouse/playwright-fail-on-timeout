@@ -1,17 +1,14 @@
-import { test, expect } from "@playwright/test";
-import { throwOnConsole } from "./testUtils";
+import { test, expect } from "./myTest.extend";
 
 test("should fail the test when an HTTP call times out and provide a helpful error message", async ({
-  page,
+  app,
 }) => {
-  await page.goto("http://localhost:3000");
-
-  throwOnConsole(page);
+  await app.goto("http://localhost:3000");
 
   await expect(
-    page.getByRole("heading", { name: "Playwright Timeout Demo" })
+    app.getByRole("heading", { name: "Playwright Timeout Demo" })
   ).toBeVisible();
 
   // Shouldn't get here because the GET posts HTTP call will time out
-  await expect(page.getByText("json-server")).toBeVisible();
+  await expect(app.getByText("json-server")).toBeVisible();
 });
