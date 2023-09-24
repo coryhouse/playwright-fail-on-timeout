@@ -15,8 +15,8 @@ function App() {
 
   useEffect(() => {
     ky("http://localhost:3001/posts", {
-      // If this call takes more than this timeout, throw an error.
-      timeout: 1500,
+      // If this call takes longer than this timeout, throw an error.
+      timeout: 1000,
     })
       .then((res) => res.json())
       .then((data) => setPosts(data as Post[]))
